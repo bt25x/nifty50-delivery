@@ -95,7 +95,7 @@ def parse_deliverable_csv(csv_text):
     if not sym_col or not traded_col or not deliver_col:
         raise RuntimeError("CSV missing expected columns. Found: " + ", ".join(df.columns))
     out = pd.DataFrame()
-    out['Symbol'] = df[sym_col].astype(str).str_strip().str.upper()
+    out['Symbol'] = df[sym_col].astype(str).str.strip().str.upper()
     out['TradedQty'] = pd.to_numeric(df[traded_col].astype(str).str.replace(',', ''), errors='coerce').fillna(0).astype(int)
     out['DeliveryQty'] = pd.to_numeric(df[deliver_col].astype(str).str.replace(',', ''), errors='coerce').fillna(0).astype(int)
     out['DeliveryPct'] = (out['DeliveryQty'] / out['TradedQty'].replace({0: pd.NA})) * 100
